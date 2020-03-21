@@ -1,13 +1,10 @@
 const express = require('express')
 const app = express()
 const api = require('./server/routes/api')
-const bodyParser = require('body-parser')
+const bodyParser = require("body-parser")
+
 const mongoose = require('mongoose')
-
-
-
-
-mongoose.connect('mongodb://localhost/bankDB', { useNewUrlParser: true })
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/transactionDB', { useNewUrlParser: true })
 
 
 app.use(bodyParser.json())
@@ -22,10 +19,11 @@ app.use(function (req, res, next) {
 })
 
 
-
 app.use('/', api)
 
-const port = 3001
+
+
+const port = process.env.PORT || 3001
 app.listen(port, function () {
-    console.log(`Server is running on ${port}`);
+    console.log(`Running on port ${port}`)
 })

@@ -18,7 +18,7 @@ class Pie extends Component {
     }
 
     createChart = (chart , data) => {
-        let arr = this.getExpenses(data.transaction)
+        let arr = this.addDeposite(data.transaction)
         chart.data = arr
         const pieSeries = chart.series.push(new am4charts.PieSeries());
         pieSeries.dataFields.value = "amount";
@@ -33,7 +33,7 @@ class Pie extends Component {
 
     }
 
-    getExpenses(data){
+    addDeposite(data){
         let arr =[]
         data.forEach(i =>{
             if(i.amount < 0){

@@ -1,26 +1,29 @@
 const express = require('express')
 const router = express.Router()
-const Transaction = require('../models/Transactions')
+const Transaction = require('../models/transactionSchema')
 
 
 router.get('/transactions', function (req, res) {
-    Transaction
-        .find({})
-        .exec(function (err, transactions) {
-            res.send(transactions)
-        })
+    Transaction.find({}, function (err, transactions) {
+        console.log(transactions)
+        res.send(transactions)
+    })
 })
 
-router.post('/transaction', function (req, res) {
-    let data = req.body
-    let transaction = new Transaction(data)
-    transaction.save()
-    res.end()
+router.post('/transaction',async function (req, res) {
+    newTransaction = new Transaction(req.body)
+    await newTransaction.save()
+    res.send(newTransaction)
 })
 
-// router.delete('/transactions', function(req,res){
+router.delete('/transaction/:id',async function (req, res) {
+   
+    await Transaction.findByIdAndDelete({_id:req.params.id})
+    res.send("success")
 
-// })
+
+})
+
 
 
 module.exports = router
